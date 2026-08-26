@@ -63,13 +63,6 @@ My goal is to create AI systems that solve real-world problems through practical
 
 ---
 
-## 📊 GitHub Stats
-
-![Arthur's GitHub stats](https://github-readme-stats.vercel.app/api?username=YOUR_GITHUB_ID&show_icons=true&theme=github_dark)
-
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=YOUR_GITHUB_ID&layout=compact&theme=github_dark)
-
----
 
 ## 🔥 Contribution Graph
 
