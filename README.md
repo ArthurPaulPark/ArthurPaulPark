@@ -1,85 +1,84 @@
-# 👋 Hi, I'm Arthur Park
+## Arthur Park
 
-### AI Software Developer | Computer Science Student
+Computer science student building applications where **user data stays on the user's machine**.
 
-I'm passionate about building intelligent software powered by Large Language Models (LLMs), AI Agents, and modern software engineering.
-
-My goal is to create AI systems that solve real-world problems through practical and scalable solutions.
-
----
-
-## 🚀 About Me
-
-- 🤖 Interested in AI Agents & Multi-Agent Systems
-- 🧠 Exploring Large Language Models (LLMs)
-- 💻 Building AI-powered desktop and web applications
-- 📊 Interested in Machine Learning & Data Analysis
-- 🌱 Continuously learning new technologies and software architecture
+That constraint drives the architecture rather than decorating it: a fitness
+tracker that never ships a webcam frame to a server, and a QR scanner that
+analyzes a link without ever requesting it. Both ship as working software you
+can run today.
 
 ---
 
-## 🛠 Tech Stack
+### Selected projects
 
-### Languages
+#### [GRU Fitness](https://github.com/ArthurPaulPark/Fitness_Web) · [live demo →](https://arthurpaulpark.github.io/Fitness_Web/)
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![C Sharp](https://img.shields.io/badge/C%23-512BD4?style=for-the-badge&logo=csharp&logoColor=white)
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge)
+Browser-based exercise assistant that counts reps and gives real-time form
+feedback for squats, push-ups, and pull-ups. Webcam frames, pose data, and
+session statistics never leave the device — there is no backend, no account,
+and no API key.
 
+```text
+Webcam → MediaPipe Pose Landmarker → 33 landmarks × (x, y, z, visibility)
+       → 30-frame sequence (132 features/frame) → 2-layer GRU (64 hidden units)
+       → ONNX Runtime Web → posture signal
+       → joint-angle state machine → reps, form score, feedback
+```
 
-### AI / Machine Learning
+Three exercise-specific GRU classifiers trained in PyTorch and exported to
+ONNX, running client-side through ONNX Runtime Web. Rep counting is a
+rule-based state machine layered on the model output, so a rep only counts
+after the sequence receives a good-posture signal during its measuring phase.
 
-![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
-![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=for-the-badge)
-![Ollama](https://img.shields.io/badge/Ollama-000000?style=for-the-badge)
-![LangChain](https://img.shields.io/badge/LangChain-00A67E?style=for-the-badge)
+`PyTorch` · `ONNX Runtime Web` · `MediaPipe` · `WebAssembly` · `JavaScript`
 
-### Frameworks & Game Development
+#### [QR Guard](https://github.com/ArthurPaulPark/Secure_QR_Scanner)
 
-![Unity](https://img.shields.io/badge/Unity-000000?style=for-the-badge&logo=unity&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask)
+Offline QR scanner for macOS that surfaces risk signals in a decoded URL
+**without fetching it**. Skipping network I/O during analysis is the security
+property: a malicious QR cannot use the scan itself to reach the local
+network, trigger a state-changing request, or collect the user's IP.
 
-### Tools
+The tool deliberately never labels a link *safe* — it reports what it can
+observe locally (dangerous URI schemes, private and reserved IPs, punycode
+lookalikes, brand impersonation, redirect parameters) and leaves the verdict
+to the user. Image input is bounded and validated: magic-byte checks, size
+and pixel ceilings, regular files only, opened with `O_NOFOLLOW`.
 
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker)
-![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![macOS](https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple)
+Dependencies are pinned exactly for reproducible audits, and the security
+tests assert the boundary holds — one patches `socket.getaddrinfo` to raise,
+proving analysis completes with no DNS resolution at all.
 
----
+`Python` · `OpenCV` · `Tkinter` · `Threat modeling` · `unittest`
 
-## 📚 Currently Learning
+#### [Falling System](https://github.com/ArthurPaulPark/FallingSystem)
 
-- Multi-Agent Systems
-- AI Infrastructure
-- LLM Optimization
-- AI Software Architecture
-- RAG Systems
-- MCP (Model Context Protocol)
+A 3D free-fall physics simulator built in Unity during high school, letting
+students compare gravitational acceleration across Earth, the Moon, and Mars.
+Distributed as a prebuilt Windows binary. Earlier work, kept public as a record
+of where the interest in simulation and interactive tooling started.
 
----
-
-
-## 🔥 Contribution Graph
-
-[![GitHub Streak](https://streak-stats.demolab.com?user=YOUR_GITHUB_ID&theme=github-dark)](https://git.io/streak-stats)
-
----
-
-## 🎯 Goals for 2026
-
-- Build production-ready AI applications
-- Contribute to open-source AI projects
-- Publish AI research and technical blogs
-- Improve software architecture and system design skills
-- Learn distributed AI systems
+`Unity` · `C#`
 
 ---
 
-## 📫 Contact
+### Working with
 
-- GitHub: https://github.com/ArthurPaulPark
+| | |
+| --- | --- |
+| **Languages** | Python · C# · Java · JavaScript |
+| **ML** | PyTorch · ONNX · MediaPipe |
+| **Practices** | On-device inference · Threat modeling · Reproducible builds |
+
+---
+
+### Currently exploring
+
+- LLM agent architectures and the Model Context Protocol (MCP)
+- Deploying models to constrained runtimes — WebAssembly, edge, and offline-first targets
+- Retrieval systems that keep the index local
+
+---
+
+<sub>GRU Fitness and QR Guard are MIT-licensed and runnable from source.
+Open an issue on any repository to get in touch.</sub>
