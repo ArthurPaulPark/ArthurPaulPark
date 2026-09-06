@@ -59,14 +59,32 @@ Webcam → MediaPipe Pose → 33 landmarks × (x, y, z, visibility)
 
 <br>
 
-### 🪐 Falling System &nbsp;·&nbsp; [![Repo](https://img.shields.io/badge/source-code-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/ArthurPaulPark/FallingSystem)
+### 🧭 LLM Decision — Budget Router &nbsp;·&nbsp; [![Repo](https://img.shields.io/badge/source-code-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/ArthurPaulPark/LLM_Decision) ![MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 
-> **3D free-fall physics simulator built in Unity during high school.**
-> Compare gravitational acceleration across 🌍 Earth, 🌕 the Moon, and 🔴 Mars
-> in an interactive 3D space. Where the interest in simulation started.
+> **Confidence-gated hybrid that predicts a coding agent's next action under a hard budget.**
+> A 14-way classifier (`read_file`, `run_tests`, `ask_user`, `apply_patch`, ...)
+> built for a 10-minute inference limit and a 1GB submission cap — too tight
+> for an LLM alone, too inaccurate for a classical model alone.
 
-![Unity](https://img.shields.io/badge/Unity-000000?style=flat-square&logo=unity&logoColor=white)
-![C#](https://img.shields.io/badge/C%23-512BD4?style=flat-square&logo=csharp&logoColor=white)
+```text
+LightGBM (5-fold ensemble) triages ~85% of samples in seconds
+       → uncertain remainder escalates to a QLoRA-tuned
+         Qwen2.5-1.5B, quantized to GGUF (~680MB)
+       → time-budget guard keeps the whole pass inside the limit
+```
+
+- ⚖️ Fast classical model handles the easy majority; the fine-tuned LLM
+  only runs on the ~15-20% it's unsure about
+- 📉 Quantization chosen by measuring the size/accuracy tradeoff, not by default
+  (IQ2_XXS rejected at ~10% accuracy, Q3_K_S picked over Q4_K_M to fit the 1GB cap)
+- 🔍 Per-class error analysis (`apply_patch` and `ask_user` were the weak points)
+  drove what to fix next, not just a leaderboard number
+
+![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)
+![QLoRA](https://img.shields.io/badge/QLoRA-005CED?style=flat-square)
+![GGUF](https://img.shields.io/badge/GGUF-654FF0?style=flat-square)
+![LightGBM](https://img.shields.io/badge/LightGBM-9ACD32?style=flat-square)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
 
 ---
 
