@@ -18,6 +18,41 @@
 
 ## 🚀 Featured Projects
 
+### 🌊 Cosmos OS — Under the Sea &nbsp;·&nbsp; [![Repo](https://img.shields.io/badge/source-code-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/ArthurPaulPark/CosmosOS_UnderTheSea) ![Reproducible](https://img.shields.io/badge/SHA256-byte--for--byte_reproducible-2ea44f?style=flat-square)
+
+> **Three unrelated ocean-science problems, one architecture: let physics set
+> the baseline, and only learn where the baseline is wrong.**
+> Built for the 2026 Marine Science AI × Big Data competition (university division).
+
+```text
+P1  water-temperature QC     7-day causal median   → classify deviations from it
+P2  vertical profile restore depth interpolation   → regress T_true − T_linear
+P3  wave-height forecast     persistence           → regress Δhs = hs − latest_hs
+```
+
+Because the model only ever learns the residual, a model failure degrades to
+baseline performance instead of collapsing — and it stays stable on the small
+effective sample sizes these problems actually have.
+
+- 📉 **P2**: RMSE 0.6079°C vs 1.4687°C linear interpolation — **58.6% error reduction**
+- 🌡️ **P1**: anomaly F1 0.7216 against a 0.5483 rule-based baseline
+- 🌀 **P3**: RMSE 0.7271m vs 0.8399m persistence across 6 forecast lead times
+- 🎯 Decision threshold pinned to the **problem-defined 3.62% anomaly rate**, not
+  the validation split's F1 peak — confirmed on the leaderboard when raising the
+  output rate to 5.0% dropped F1 to 0.6442
+- 🔍 Diagnosed the real bottleneck: 32,126 anomalous rows collapse to just **272
+  continuous events**, so more features couldn't help — the ceiling was sample count
+- ✅ `./run_all.sh` retrains from scratch and SHA256-matches all three submitted
+  CSVs byte-for-byte, offline, in ~7 minutes against a 6-hour limit
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![LightGBM](https://img.shields.io/badge/LightGBM-9ACD32?style=flat-square)
+![pandas](https://img.shields.io/badge/pandas-150458?style=flat-square&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikitlearn&logoColor=white)
+
+<br>
+
 ### 🏋️ GRU Fitness &nbsp;·&nbsp; [![Live](https://img.shields.io/badge/▶_live-demo-2ea44f?style=flat-square)](https://arthurpaulpark.github.io/Fitness_Web/) [![Repo](https://img.shields.io/badge/source-code-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/ArthurPaulPark/Fitness_Web) ![MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 
 > **Real-time AI workout coach that runs entirely in your browser.**
